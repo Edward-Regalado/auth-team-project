@@ -4,9 +4,12 @@
   "description": "application using an API Server and Authentication System",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch --coverage"
   },
-  "author": "Tony Regalado",
+  "author": "Tony Regalado, Luis Sandoval, Daniel Castro, Derek Douglas",
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.0.1",
