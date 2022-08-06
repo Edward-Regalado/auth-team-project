@@ -28,6 +28,7 @@ async function signIn(req, res) {
     }
   } catch (e) {
     res.status(403).send("invalid username or password");
+    console.log(`error message: ${e.message}`);
   }
 }
 

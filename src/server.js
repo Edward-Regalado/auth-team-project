@@ -2,17 +2,14 @@
 
 const express = require('express');
 
-const loginRoutes = require('./middleware/auth/route.js');
-const verifyAccessToken = require('./middleware/auth/auth.js');
+const loginRoutes = require('./middleware/auth/loginRoutes.js');
+const verifyAccessToken = require('./middleware/auth/validateToken.js');
 
 const userRoutes = require('./routes/user.js');
 // const allRoutes = require('./routes/v1.js');
 
-
-
 const app = express();
 app.use(express.json());
-
 
 // middleware
 app.use(loginRoutes);
