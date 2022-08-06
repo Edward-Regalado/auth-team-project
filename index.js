@@ -10,5 +10,3 @@ db.sync()
         server.start(3000);
     })
     .catch(console.error);
-
-// server.start(3000);

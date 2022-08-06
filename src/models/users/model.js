@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 const SECRET = process.env.SECRET;
+const bcrypt = require('bcrypt');
+const HASH_STRENGTH = 10;
 
 const userModel = (sequelize, DataTypes) => {
     const model = sequelize.define('User', {
@@ -24,6 +26,12 @@ const userModel = (sequelize, DataTypes) => {
                 },
             },
         });
+
+        model.beforeCreate(async (user) => {
+        let hashPassword = await bcrypt.hash(user.password, HASH_STRENGTH);
+        user.password = hashPassword;
+        user.role = 'admin';
+    });
     return model;
 };
 
