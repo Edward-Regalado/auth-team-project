@@ -14,6 +14,7 @@ const userModel = (sequelize, DataTypes) => {
         },
         role: {
             type: DataTypes.STRING,
+            allowNull: true,
         },
         token: {
             type: DataTypes.VIRTUAL,
