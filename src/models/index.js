@@ -1,6 +1,8 @@
 'use strict';
 
-const sequelize = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
+const Collection = require('./data-collection');
+const userSchema = require('./users/model.js');
 
 require('dotenv').config();
 
@@ -16,7 +18,11 @@ const sequelizeOptions = process.env.NODE_ENV === 'production' ? {
 }: {};
 
 const sequelize = new Sequelize(DATABASE_URL, sequelizeOptions);
+const UserModel = userSchema(sequelize, DataTypes);
+
+const UserCollection = new Collection(UserModel);
 
 module.exports = {
-    db: sequelize
-}
+    db: sequelize,
+    User: UserCollection
+};
