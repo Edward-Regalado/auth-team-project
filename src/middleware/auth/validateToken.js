@@ -4,18 +4,20 @@ const jwt = require("jsonwebtoken");
 
 function validateToken(req, res, next) {
   try {
-    const token = req.headers["authorization"];
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(' ')[1];
     if (!token) {
+      console.log("if not token");
       res.status(401).send("unauthorized");
-      next();
     } else {
+      console.log("else block");
       const user = jwt.verify(token, SECRET);
       req.user = user;
-      next();
     }
   } catch (e) {
-    console.log(`error message: ${e.message}`);
+    console.log(`error message validate token: ${e.message}`);
   }
+  next();
 }
 
 module.exports = validateToken;

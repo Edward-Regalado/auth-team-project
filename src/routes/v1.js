@@ -1,37 +1,65 @@
-const fs = require('fs');
-const express = require('express');
-const Collection = require('../models/data-collection.js');
+const express = require("express");
 
-const router = express.Router();
-
-// const model = require('../../index.js');
-const db = require('../../index.js'); 
-// const datatypes = require('../../index.js'); 
-
-// const { DataTypes } = require('sequelize');
-
-// fs.getCurrentFilenames();
-
-router.param('model', (req, res, next) => {
-    const fileName = `${__dirname}/../models/${req.params.model}/model.js`;
-    console.log(fileName);
-    if(fs.existsSync(fileName)) {
-        console.log("Inside if statement");
-        // const schema = require(fileName);
-        // const model = schema(db, DataTypes); 
-        // req.model = new Collection(model);
-        next();
-    } else {
-        next('invalid model');
-    }
-});
-
-router.get('/:model', handleGetAll);
-
-async function handleGetAll(req, res) {
-    const allRecords = await req.model.get();
-    res.status(200).json(allRecords);
+function v1Router(collections) {
+  const router = express.Router();
+  for (const collection of collections) {
+    console.log("collection routes: ", collection.model.name);
+    const route = "/" + collection.model.name.toLowerCase();
+    router.use(route, authRouter(collection));
+  }
+  return router;
 }
 
-module.exports = router;
+function authRouter(collection) {
+  const router = express.Router();
+  function isAllowed(roles) {
+    return function isAllowedMiddleware(req, res, next) {
+      let roles = ["writer", "editor", "admin"];
+      if (req.user && roles.includes(req.user.role)) {
+        next();
+      } else {
+        res.status(401).send("unauthorized");
+      }
+    };
+  }
 
+  async function handleGetAll(req, res) {
+    let allRecords = await collection.read();
+    res.status(200).json(allRecords);
+  }
+
+  async function handleGetOne(req, res) {
+    const id = req.params.id;
+    let theRecord = await collection.get(id);
+    res.status(200).json(theRecord);
+  }
+
+  async function handleCreate(req, res) {
+    let obj = req.body;
+    let newRecord = await collection.create(obj);
+    res.status(200).json(newRecord);
+  }
+
+  async function handleUpdate(req, res) {
+    let id = req.params.id;
+    let obj = req.body;
+    let updatedRecord = await collection.update(id, obj);
+    res.status(200).json(updatedRecord);
+  }
+
+  async function handleDelete(req, res) {
+    let id = req.params.id;
+    let deletedRecord = await collection.delete(id);
+    res.status(200).json(deletedRecord);
+  }
+
+  router.get("/", handleGetAll);
+  router.get("/:id", handleGetOne);
+  router.post("/", isAllowed(), handleCreate);
+  router.put("/:id", isAllowed(), handleUpdate);
+  router.delete("/:id", isAllowed(), handleDelete);
+
+  return router;
+}
+
+module.exports = v1Router;
