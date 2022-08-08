@@ -13,7 +13,7 @@ async function signUp(req, res) {
     res.status(200).json(newUser);
   } catch (e) {
     res.status(500).send(`cannot create user ${req.body.username}`);
-    console.log(`error message: ${e.message}`);
+    console.log(`error message signup: ${e.message}`);
   }
 }
 
@@ -28,7 +28,7 @@ async function signIn(req, res) {
     }
   } catch (e) {
     res.status(403).send("invalid username or password");
-    console.log(`error message: ${e.message}`);
+    console.log(`error message signin: ${e.message}`);
   }
 }
 
