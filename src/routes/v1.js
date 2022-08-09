@@ -24,33 +24,65 @@ function authRouter(collection) {
   }
 
   async function handleGetAll(req, res) {
-    let allRecords = await collection.read();
-    res.status(200).json(allRecords);
+    try {
+      let allRecords = await collection.read();
+      res.status(200).json(allRecords);
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
   async function handleGetOne(req, res) {
     const id = req.params.id;
-    let theRecord = await collection.get(id);
-    res.status(200).json(theRecord);
+    try {
+      if(!id) throw new Error(`${id} not found!`);
+      else {
+        let theRecord = await collection.get(id);
+        res.status(200).json(theRecord);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
   async function handleCreate(req, res) {
     let obj = req.body;
-    let newRecord = await collection.create(obj);
-    res.status(200).json(newRecord);
+    try {
+      if(!obj) throw new Error(`Cannot create record ${obj}/1`);
+      else {
+        let newRecord = await collection.create(obj);
+        res.status(200).json(newRecord);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
   async function handleUpdate(req, res) {
     let id = req.params.id;
     let obj = req.body;
-    let updatedRecord = await collection.update(id, obj);
-    res.status(200).json(updatedRecord);
+    try {
+      if(!id) throw new Error(`${id} not found!`);
+      else {
+        let updatedRecord = await collection.update(id, obj);
+        res.status(200).json(updatedRecord);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
   async function handleDelete(req, res) {
     let id = req.params.id;
-    let deletedRecord = await collection.delete(id);
-    res.status(200).json(deletedRecord);
+    try {
+      if(!id) throw new Error(`${id} not found!`);
+      else {
+        let deletedRecord = await collection.delete(id);
+        res.status(200).json(deletedRecord);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
   router.get("/", handleGetAll);

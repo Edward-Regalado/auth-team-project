@@ -49,6 +49,11 @@ class Collection {
     this.associations.set(collection.model, model);
   }
 
+  hasManyThrough(collection, model) {
+    this.model.hasMany(collection.model, { through: model });
+    this.associations.set(collection.model, model);
+  }
+
   async createAssociate(record, association) {
     if (!this.associations.has(association.collection.model)) {
       throw new Error("No association found for specified collection");

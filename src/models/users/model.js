@@ -5,6 +5,13 @@ const HASH_STRENGTH = 10;
 
 const userModel = (sequelize, DataTypes) => {
     const model = sequelize.define('User', {
+        // TaskId: {
+        //     type: DataTypes.INTEGER,
+        //     references: {
+        //         model: 'Task',
+        //         key: 'id',
+        //     },
+        // },
         username: {
             type: DataTypes.STRING,
             allowNull: false,
