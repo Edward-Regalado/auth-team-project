@@ -47,11 +47,15 @@ function authRouter(collection) {
 
   async function handleCreate(req, res) {
     let obj = req.body;
+    let reqUser = req.user;
     try {
       if(!obj) throw new Error(`Cannot create record ${obj}/1`);
       else {
+        // check for any associations, pass params
         let newRecord = await collection.create(obj);
         res.status(200).json(newRecord);
+        console.log("/////////////////////////////////////////");
+        console.log(`req.user${JSON.stringify(reqUser)}`);
       }
     } catch (error) {
       console.log(error.message);

@@ -49,9 +49,9 @@ class Collection {
     this.associations.set(collection.model, model);
   }
 
-  hasManyThrough(collection, model) {
-    this.model.hasMany(collection.model, { through: model });
-    this.associations.set(collection.model, model);
+  hasManyThrough(collection) {
+    this.model.hasMany(collection.model);
+    this.associations.set(collection.model, this.model);
   }
 
   async createAssociate(record, association) {

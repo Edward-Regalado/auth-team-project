@@ -1,12 +1,5 @@
 const taskModel = (sequelize, DataTypes) => {
     const model = sequelize.define('Task', {
-        // UserId: {
-        //     type: DataTypes.INTEGER,
-        //     references: {
-        //         model: 'User',
-        //         key: 'id',
-        //     },
-        // },
         title: {
             type: DataTypes.STRING,
             allowNull: false,
