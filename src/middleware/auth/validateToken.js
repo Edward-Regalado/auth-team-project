@@ -13,6 +13,7 @@ function validateToken(req, res, next) {
       console.log("else block");
       const user = jwt.verify(token, SECRET);
       req.user = user;
+      console.log(`req.user${JSON.stringify(req.user)}`);
     }
   } catch (e) {
     console.log(`error message validate token: ${e.message}`);

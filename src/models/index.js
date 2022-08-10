@@ -29,8 +29,6 @@ const UserCollection = new Collection(UserModel);
 const TaskCollection = new Collection(TaskModel);
 
 UserCollection.hasManyThrough(TaskCollection);
-// UserCollection.hasManyThrough(TaskCollection, UserModel);
-// TaskCollection.belongsToManyThrough(UserCollection, UserModel);
 
 module.exports = {
     db: sequelize,
