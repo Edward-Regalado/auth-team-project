@@ -14,5 +14,5 @@
 
 ### Team
 
-- Tony Regalado, Luis Sandoval, Daniel Castro, Derek Douglas
+- Tony Regalado, Luis Sandoval, Danny Castro, Derek Douglas
 
